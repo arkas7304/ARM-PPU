@@ -121,3 +121,38 @@ Static P channel
         pcsmpstate highest opmode.
         op_status = op_policy of currentl
     c. power mode tx without opmode  if op_status ~= op_policy at the begining of transfer. 
+
+OPMODE rule - 
+44. PPU_PWPR.OP_DYN_STATUS == 0 opmode is f(programmed op policy).
+45. DEVPACTIVE doesnot matter
+46. PPU_PWPR.OP_DYN_STATUS == 1 highest of (programmed op policy, DEVPACTIVE inputs).
+47. ppu -> new op mode
+    PPU is on BUT NO REquest to OFF EMU warm_rst dbg_recov. on-> on which always takes priority.
+    entry delay timer gives chance to override off
+48. ppu -> new op mode -> as well as power mode.
+49. PPU.PWCR.OP_DEVACTIVEEN - mask - disabled low.
+50. PPU_PWPR.OP_DYN_EN == 0 -> static op_mode - DEVPACTIVE does not participate in transition.
+
+51. ladder_model: one hot with lower dont care - DEVPACTIVE 16 onward opmode 0 16 0 upper all 0 , opmode 1 16 is 1 upper all 0 then leftshift by 1.
+
+52. independent - typically means one bit for each component.
+    4 op mode DEVPACTIVE[19:16] Inputs.
+
+53. POWER POLICY - PPU_PWPR - update only after any ongoing mode transition.
+
+54. PPU_PWPR.PWR_DYN_EN , PPU_PWPR.OP_DYN_EN - wait till - reflection in status. PPU_PWSR.PWR_DYN_STATUS or PPU_PWSR.OP_DYN_STATUS
+
+55. mode transitions - either complete or denied by PPU device interface.
+
+56. static transition denied - policy reverts to current mode of PPU_PWSR.
+
+57. dynamic transition enable set - during transition -reverts to initial PWSR.(?)
+
+58. Denial Interrupt - static tx denied unmasked. Q-PPU PPU_STSR - identifies the report.
+
+59. Policy unsupported - PPU_PWPR - not updated - interrupt happens on attempt.
+
+60. e.g. MEM_RET - supported as static not as dynamic-  same as above when unsupported.
+
+61. 
+
