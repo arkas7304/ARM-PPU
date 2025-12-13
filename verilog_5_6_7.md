@@ -289,13 +289,120 @@ left-hand side of an assignment and shall not be connected to output or inout po
 
 117. 113 & 114 : drive strength valid. both (strength0 , strength1)
 
-118. pullup : strength1 , pulldown : strength0. optional
+118. pullup : strength1 , pulldown : strength0. optional opposite
 
-119. strength1: ( supply1, strong1, pull1, weak1) : same for 0.
+119. strength1: ( supply1, strong1, pull1, weak1) : same for 0. may be highz0/1 when you want z in respective level.
 
 120. (highz0, highz1)  - invalid.
 
-121. 
+121. (strong1, strong0) default.
 
+122. optional delay specification.
 
+123. pullup pulldown : no delay specification.
 
+124. multiple instances - can be array of instances. an identifier shall be there.
+
+125. array of instances - [lhi:rhi] if lhi==rhi only one instance .
+
+126. continuous range - one indetifier with one range alone.
+
+127. terminal list within () - seprated by commas.
+
+128. explains all : dffn #(M) p[1:N] ({out, t}, {t, in}, clk);
+     match it
+
+129. 0,1,2 delays - if 2: o/p rise and o/p fall, smaller -> transition to x ; if 1: both same, no delay no prop.
+
+130. and,or,xor, nand xnor,nor.: 1 terminal output,
+
+131. buf , not : 1 input more outputs- outputs first, then last input.
+
+132. bufif0, bufif1, notif1, notif0. 
+
+133. L :0/Z H :1/z - L or H same as x.
+
+134. 1 data ip , 1 control ip, 1 output. (op, d, ce)
+
+135. cmos, nmos, pmos, rcmos, rnmos, rpmos. 
+
+136. nmos:psmos - low impedence. rpmos ; rnmode - resistive version. similar to bufif.
+
+137. LH x/z as earlier. 
+
+138. tran, rtran, tranif1, rtranif1, tranif0, rtranif0.
+
+139. bidirectional pass switch if turned on - tran rtran  does not block.
+
+140. delays : 0,1,2 : first - turn-on delay, turn off delay.
+
+141. tran, rtran no delay.
+
+142. first two bidrectional ports - secod is is control.
+
+143. metal with switch - behavior. 
+
+144. cmos (w, datain, ncontrol, pcontrol);
+
+145. pullup pulldown.  pullup (strong1) p1 (neta), p2 (netb);
+
+146. supply0 strong0 pull0 (LARGE0) weak0 (MEDIUM0) (SMALL0) [highz0].
+
+147. large medium small - charge storage strength.
+
+148. 4 drive strengths. 
+
+149. all on strength scale. STRENGTH0 STRENGTH1.
+
+150. known - then either stregth0 or strength1. unknown - both. z only highzx.
+
+151. signal value and unambiguous strength level single. or ambiguous combination.
+
+152. combination - unambiguous.
+
+153. unequal -known value - single strength level : stronger 
+
+154. like value - same value : greatest strength prevails.
+
+155. ambiguous strengths.  
+         
+156.     we1 we0 - wex
+
+156. Signals with a value L. Signals with a value H. weak x range we0-we1
+
+157. St1 -> StH :: We0 -> StL  control input x 
+
+158. strong H range StL range. ambiguous. range is numbered.
+
+159. <pending>
+
+160. Strength reduction nmos,pmos,cmos - supply to strong. tran tranifx no impact on any strength yet supply to strong.
+
+161. rnmos, rpmos, rcmos, rtran, rtranif1, rtranif0. strength reduction rules.
+
+162. tri0, tri1 - 0 and pull strength, - connects to pulldown device.
+     tri1 - 1 and pull - connects to resistive pull up device.
+
+163. trireg strength - charge storage nodes : 
+
+164. Gate delays - rise fall turn-off.
+
+165. Net delays ( any driver on the net changing values to the time when net value is updated and propagated further).
+
+166. Default Delays <pending>-
+
+167. Combinational UDP - output - f(input)
+
+168. sequential output - f(input, current output) : current output = the udp state.
+
+169. UDP output 0,1,x. udp ONLY 1 OUTPUT. z becomes x
+
+170. no udp declaration between module and endmodule. min 256 for max no of udps.
+ 
+171. primitive identifier (port_names list | port declaration lis) :: if port_names port declaration in defnintion section. state tables common in both.
+
+172. multiple inputs 1 output - no bidir inout. - only scalar no vector. ouput first one.
+
+173. key word : input, output.
+
+174. 
