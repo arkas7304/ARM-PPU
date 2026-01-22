@@ -378,4 +378,140 @@ endmodule
 
 95. loop must terminated. genvar can not be x or z.
 
-96. 
+96. array of instance - just after range spec. 2 const [lhi:rhi] lhi< rhi  possible. equal means 1 
+
+97. continuous range- instance identifier must - no separate decl - just instance time put array.
+
+98. terminal connections :
+    1. port expr bit-l compared - terminal connection bitl mapped. part select mapp starting with rhi.
+    2. full geometry - too many or too few total is error.
+
+99. e.g. dffn #(M) p[1:N] ({out, t}, {t, in}, clk) ; wire [M*(N-1):1] t; MxN pipeline.
+    process 
+
+100. serial t(M*(N-1) -1 : M*(N-2)) -> P(1).
+
+
+101. GENEVAR gets appended in name by begin:name end format. 
+
+102. this is c type {} equivalent.
+
+103. conditional generate - at most one block. can be 0.
+
+104. one item one line begin not required.
+
+105. same name of a constructr in same condition tree- not others(even if others not selected after elab).
+
+106. name clashing with other decl - even not selected not allowed.
+
+107. not named - only hierarchy within it can reach decls using hierarchichal structure.
+
+108. condition generate block (can be one among many alternative) - only one item - and that also is a conditional generate block - also no begin/end surrounding - then not a separate scope. directly nested. same scope as outer construct - same name , and name rule clash check of outer construct.
+
+109. if-else-if , case can be nmixed.
+
+110. Conditional instantion of parameter - making recursion instantiation.
+
+111. elaborator shall assign name. code can not refer this. genblk<n>.
+
+112. each node separate scope. idetifier only once in any scope.
+
+113. . -separator . escaped identifier followed by ws and . exceptional escaped identifer case.
+
+114. top of hierarchy - hierarchy search algo.
+
+115. objects - automatic tasks, func - not accessible. unnamed genblock. - downward ierarchy can access it.
+
+116. names - instance-array (gen block or otherwise) - [constant expression after elab] - instance select 
+
+117. multiple instance treating together -not possible when it is middle of the hierarchy - only when last possible . (sv will deviate from it bcs of struct union etc).
+
+118. simple_identifier ::= [ a-zA-Z_ ] { [ a-zA-Z0-9_$ ] } - start alpha or _ char atleast one char - no space.
+
+119. full hierarchichal - any level if full path is known (path resolution rule in v). this is before elaboration naming - hence implicit reference not allowed.
+
+120. name of higher level module or its instance name.
+
+121. task, func, named blocks - look in enclosing till root found. only enclosing module not instances.
+because you do not gurantee how many insatnces
+121. upward_name_reference ::=
+module_identifier.item_name.
+
+122. scope_name.item_name - instance/ gen block.
+    1. resolution - search in current scope as child element - not -> look in enclosing scope ->not -> repeat. (not crossing module boundary)
+    2. search in current scope - not -> look in enclosing scope -> somewhere found -> then onward downward inst ref.
+
+    3.1 ends in not found when module outermost scope is hit. look there  
+        a. found - then onward downward inst ref.
+        b. else - go up the hierarchy.
+
+123. identifier one item/scope. exceptional conditional gen construct - because it is guranted wihout/before elab.
+
+124. non hierarchichal reference - declaration locally or higher node/module in same branch. search automatically happens upward. local name overrides because search happens locally.
+
+125. variable search can not cross module boundary during search.
+
+126. task,function, named block/genblock search will continue in higher module in branch until found. port crossover not necessary. 
+
+127. instance name is given preference if name clashes at any level.
+
+128. so for downward ref - first item must be found at same level.
+
+129. parsing -> elab -> sim/modelsynth.
+
+130. elab module binding, parameter dissolution generate building.
+
+131. defparam can trigger elab rebuild and loop - hence order must be there. because defparam can be any where.
+
+132. starting points -> below hierarchy expanded. all parameter and available defparam statements.
+     2.defparam inside hierarchy below generate can not affect higher so no worry. only twist is upper defparam.
+
+     3. revisit all generate whenever newer higher up is added and newer def param is encountered.
+
+133. some defparam during parsing ->  In order to cause the error, there has to be a named generate block that
+has the same name as one of the scopes in its full hierarchical name. Furthermore, there have to be two
+instances with the same name, one in the generate block and one in the other scope with the same name as
+the generate block. Then, inside these instances there have to be parameters with the same name. If this
+problem occurs, it can be easily fixed by changing the name of the generate block.
+
+
+ tldr - defparam statement itself getting affected due to hierarchichal param ref - revisit of hierarchy never ends.
+
+
+134. sv:: compilation unit . compilation scope, $unit.
+
+135. together or each on its own compilation unit - tool shall provide method. `include always included
+
+136. compilation unit will grow : no incomplete decl.
+
+137. compiler directive resets between units.
+
+138. sv:: compilation unit is searched before instance higher hierarchy as seen in verilog.
+
+139. $unit is like a package in that sense.
+
+140. $root is defined top. 
+
+141. package scope : top level module name and primitives scope.
+
+142. no process allowed. wire aac =1; not allowed.
+
+143. ITEM within package has no hierarchichal ref.
+
+144. class scope direct porting - no import statement. ComplexPkg::Complex cout = ComplexPkg::mul(a, b);
+
+145. import package_import_item { , package_import_item } ;
+
+146. explicit illegal, if the identifier is redefined in the same scope. or imported from another.
+
+147. wild card import - makes only visible - actual import happens when reference first time.
+
+148. wild card clash from another package - undefined error if used. redeclaration treated as first declaration.
+
+149. such problem doesnt happen with class style ref.
+
+150. 
+ 
+
+
+
