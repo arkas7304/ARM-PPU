@@ -102,4 +102,6 @@ myinterface #(100) scalar1(), vector[9:0]();
 
 26. interface i , map with : i1.A i1.B.
 
-27. 
+27. not assignment context - input .Q(2) Q undefined but with const 2 maps to 2 not a port.
+
+28. modport itself can be array of modport - genvar. etc. allowed.

@@ -1,3 +1,10 @@
+verilog - no scope  below procedural always block - no nesting - no further hierarchy - only items/ operators etc. function may seem to break this but practically dont.
+
+
+
+
+
+
 0x60 - ` this is not ' 
 celldefine -endcelldefine -
     : PLI routines specifics - any number of pair.
