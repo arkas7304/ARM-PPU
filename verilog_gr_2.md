@@ -98,4 +98,8 @@ myinterface #(100) scalar1(), vector[9:0]();
            memMod mem(sb_intf.slave)
            cpuMod cpu(sb_intf.master);
 
-25. 
+25. modport expression:  refer 20 - however output .P(r[3:0]) instead of output r  - redefinition at port level. expression based modification.
+
+26. interface i , map with : i1.A i1.B.
+
+27. 
