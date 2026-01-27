@@ -105,3 +105,31 @@ myinterface #(100) scalar1(), vector[9:0]();
 27. not assignment context - input .Q(2) Q undefined but with const 2 maps to 2 not a port.
 
 28. modport itself can be array of modport - genvar. etc. allowed.
+
+30. interfinterface with parameter, then further : client
+    client_m client (.client_ifc (intf.mps[j].client_mp));
+
+ 
+31. clocking block within interface.
+
+32. clocking sb @(posedge clk);
+input gnt;
+output req, addr;
+inout data;
+property p1; req ##[1:3] gnt; endproperty
+endclocking
+
+33. usefull for protocol checker. clocking block requires clk, input type interface- need hook.
+
+34. page 361 example - simple protocol checker.
+
+35. specify
+( posedge ch.c => (ch.q+:ch.d)) = (5,6);
+$setup( ch.d, posedge ch.c, 1 );
+endspecify.
+
+36. task and function within an interface.
+37. inside modport import function/task.
+
+
+38. pending features.  20.6.1 onwards - too advanced verification focused.
