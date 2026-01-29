@@ -42,3 +42,7 @@ blocking_assignment ;
 19. disable similar to continue when disable is performed on other block.
 20. disable kills a task.
 21. iff qualifies the trigger. it has pecrdence over or
+
+22.join, join_any : any child item return allow parent to restart. join_none: child itself waits for next blocking statement. fork is a blocking statement.
+
+23. Pending- 10.4 and 11.6 onwards.
