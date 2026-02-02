@@ -54,8 +54,22 @@ data = (s == 1) ? bus0 : Zee;
 49. concatenation of strings hence creates problem is the string variable is padded.
 50. \0 is 0 valued reg not "0".
 51. (a:b:c) + (d:e:f) min : typ:max delay format.
-52.  if result stores in larger reg carry bits are stored else - removed.
-53.  
+52.  if result stores in larger reg carry bits are stored else - carry removed.
+53.  bits of expression : context.driven.
+54.  self-determined expr: condition: bitlength solely dtermined by expr itself.
+55.  context-dtermined expr: the asignment to another expr or assignment opoerator drives the length.
+56.  table5-22
+57.  now expr evaluation assignment interism result first will be put to MAX [table 5-22 output, L(lhs)]. remember this will be forced - so interim result can loss carry
+58.  e.g. of loss - reg [15:0] a, b, answer;  answer = (a + b) >> 1;
+59.  $signed, $unsigned  preserve the input expression length and sign by function without lhs meddling.
+60.  expr type determination now after size determination- only on operand not on lhs.
+61.  decimal numbers are signed - based numbers are unsigned except s notation. bit select, part select always unsigned.
+62.  concatenates are unsigned, comparison results are unsigned.
+63.  real to integer cast signed.
+64.  non self -determined operands - both has to be signed to  result to be signed.
+65.  5.5.2 (expression evaluation rule).
+66.  rhs size determination. truncation without warning.
+
 
 
  mi
