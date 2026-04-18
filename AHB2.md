@@ -41,4 +41,14 @@
     addr[n] = wrap_base + (inc_address- wrap_base) % WB
     start_addr unrestricted.
 
- 
+19. multi master case: if burst termination forced - rebuild of burst at next point onward after reacquire - this requirement not there in ahb-lite AMBA 3 but there in AHB2.
+
+20. HPROT : 3-cacheable 2- bufferable 1-priviledged 0: data/op.
+
+21. HTRANS impact: non existant address = default slave :idle/busy type -OKAY response. rest ERROR response. 
+
+22. Bus master in either AHB-lite or aAMBA2 AHB never cancels a transaction that has started. 
+
+23. ERROR example : write to read only location; access to secure space in nonsecure mode.
+
+24. SPLIT/RETRY: 
