@@ -51,4 +51,29 @@
 
 23. ERROR example : write to read only location; access to secure space in nonsecure mode.
 
-24. SPLIT/RETRY: 
+24. SPLIT/RETRY: master retry in next grant-slave requesting grant on behalf of master(?)/ master keeps on retrying.
+
+25. two cycle response.: 1st ERROR cycle: HRESP = ERROR, HREADY = 0
+2nd ERROR cycle: HRESP = ERROR, HREADY = 1 
+
+26. meaning clear if you think response is a state for the data line. and two times to prepare the master to cancel 1 stage pipeline.
+
+27. Hready first sampled by master at cycle 2 end.
+
+28. retry - arbiter continues normal priority scheme - split frees for all - but slave must tell back when data is available. master both same.
+
+29. HMASTKLOCK - breaks pipeline for atomic processing. second phase same address - then idle
+
+30. busy+nonseq or idle at end of bus.: only for undefined  incr. everything else seq must end.single-busy not allowed. idle or nonseq with non single hburst must before busy.
+
+31. start end implicit - so type alone can determine. error response - master termination allowed, no termination also allowed. no rebuild required. slave design should be termination tolerant.
+
+32. wait -> idle to non seq allowed. wait issued in response to previous nonseq or seq. but onlce nonseq within wait - must hold.
+
+33. wait busy -> seq allowed : busy wait issued in response to previous nonseq or seq. once seq back - must hold. fixed length.
+
+34. wait busy -> anytype allowed : busy wait issued in response to previous nonseq or seq. once anytime back on nowait - must hold.termination or continuation of burst.
+
+35. idle to nonseq - during wait new addr - addr holds.
+
+36. error - 2 cycle error - 2nd cycle new address.
