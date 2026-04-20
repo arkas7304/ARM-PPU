@@ -76,4 +76,8 @@
 
 35. idle to nonseq - during wait new addr - addr holds.
 
-36. error - 2 cycle error - 2nd cycle new address.
+36. error - 2 cycle error - 2nd cycle begining new address can be put.
+
+37. address deconding - HSEL to each servant based on address space.
+
+38. 
