@@ -78,6 +78,7 @@
 
 36. error - 2 cycle error - 2nd cycle begining new address can be put.
 
-37. address deconding - HSEL to each servant based on address space.
+37. address deconding - HSEL to each servant based on address space.non existant address- default slave - nonseq/seq error response. idle/busy ok response.
 
-38. 
+38. HRESP 1 - error - must be two type of Hready - wait and then 1.
+39. reccommendation max 16 wait states.  1 error sampling by master is enough to terminate by an idle transaction.
