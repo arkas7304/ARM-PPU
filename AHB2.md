@@ -18,7 +18,11 @@
 9. address[n] = address[n-1] + (1<<HSIZE) 
   
 
-10. DW ={1,...,128} IN BYTES. byte lane HxDATA[FL:SL]. SL = ADDR[n][log2(DW)-1:0] : each lane 1 byte. fl = SL + (1<<HSIZE) -1  for all/any n
+10. DW ={1,...,128} IN BYTES. byte lane HxDATA_lane[FL:SL]. SL = ADDR[n][log2(DW)-1:0] : each lane 1 byte. fl = SL + (1<<HSIZE) -1  for all/any n
+
+little endian: HxDATA[(FL+1)*8 -1 : SL*8 ] = DATA[(1<<HSIZE) -1:0];
+big endian: HxDATA[(DW-SL)*8-1: (DW -SL-  (1<<HSIZE)+1-1) *8]
+         :: HxDATA[(DW-SL)*8-1: (DW -FL-1) *8] = DATA[7:0]... so on
 
 11. AHB2 - ERROR : 2 BIT : OKAY, ERROR, RETRY SPLIT.
 
@@ -81,4 +85,4 @@
 37. address deconding - HSEL to each servant based on address space.non existant address- default slave - nonseq/seq error response. idle/busy ok response.
 
 38. HRESP 1 - error - must be two type of Hready - wait and then 1.
-39. reccommendation max 16 wait states.  1 error sampling by master is enough to terminate by an idle transaction.
+39. reccommendation max 16 wait states.  1 error sampling by master is enough to terminate by an idle transaction during the second error cycle. or else error cycle will simple extend the address to 2nd cycle
