@@ -82,3 +82,6 @@
 
 38. HRESP 1 - error - must be two type of Hready - wait and then 1.
 39. reccommendation max 16 wait states.  1 error sampling by master is enough to terminate by an idle transaction.
+40. HADDR[K] -> SELECTOR 0 -> K-1 : 2**K diffterrent address means 2 **K bytes -> more widers K..N address works as selector. narrow slave on wide bus. - latch selector address with HREADY as enable.
+- kinde of lane selection - and reverse lane selection.
+41.  
