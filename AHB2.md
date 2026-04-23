@@ -84,4 +84,64 @@
 39. reccommendation max 16 wait states.  1 error sampling by master is enough to terminate by an idle transaction.
 40. HADDR[K] -> SELECTOR 0 -> K-1 : 2**K diffterrent address means 2 **K bytes -> more widers K..N address works as selector. narrow slave on wide bus. - latch selector address with HREADY as enable.
 - kinde of lane selection - and reverse lane selection.
-41.  
+
+  AHB3 lite  -> 2015 version B ->
+
+1. HPROT[3] : Cacheable -> Modifiable.
+    New signal/interface items
+    HPROT[6:4]
+    HNONSEC
+    HEXCL
+    HMASTER[3:0]
+    HEXOKAY
+    clarified HPROT[3:0]
+
+New protocol/property items
+    Extended_Memory_Types
+    Secure_Transfers
+    Endian
+    Stable_Between_Clock
+    Exclusive_Transfers
+
+Atomicity, including single-copy atomicity size and multi-copy atomicity
+    New interconnect/transfer guidance
+    extra HMASTLOCK/IDLE detail
+    Multiple Slave Select
+    New extensibility mechanism
+    User Signaling
+
+
+2. locked transfer - after that idle recommendated - during idle last of lock will happen.
+
+3. MPMC requires LOck. locked  transfer sequence - idle at start or end not recommended but permitted.
+
+4.locked same slave address region. (issue B)
+
+5. memory type table -
+    HPROT[6:2] 
+    0 - Device-nE
+    1 - Device-E
+    2 - Normal Non-cacheable Non-shareable
+    18 - normal no cache shareable
+
+    6 or 14 - write-thru no share.
+    7 or 15 - write-back no share
+    23 or 31 -  write-back share
+    22 or 30 -  write-thru share.
+
+
+Device memories - 
+    Read data from final dest.
+    no split transfers or merging of transfers.
+    no prefetch or speculative read.
+    writes no merge.
+    same -master-slave pair : order read & write.
+    HSIZE always same. 
+
+    bursts broken into smaller bursts by idle/busy. but total number of SEQ+NONSEQ remains same between them.
+
+    HPROT[2] can be toggled. Device-nE to Device-E and vice versa.
+
+Device-nE specific  - write response must from final dest.
+
+Device -E specific - write response from intermediary but observation by all masters 
