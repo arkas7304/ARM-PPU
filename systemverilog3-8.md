@@ -8,4 +8,7 @@
 8. new string data type -> arbitrary length- packed array - 8's multiple bit size literal.
 9. Array literal -> C initialiser - '{'{}}  ::  {{}}replicator allowed. outer of replicator is part of lietral operator in this case.
 10. original '{'{4,5,4,5,4,5},'{4,5,4,5,4,5}} == '{'{3{4,5}},'{3{4,5}}}  : 4,5,4,5,4,5 replaced by 3{4,5} but existance of immediate '{} must. if already there no new req
-11. '{'{3{4,5}},'{3{4,5}}} == '{2{'{3{4,5}}}} 
+11. '{'{3{4,5}},'{3{4,5}}} == '{2{'{3{4,5}}}}
+12. no of different dimension = no of '
+13. literal must have constant expression. must have type. prefix or casting/assignment. context only.
+14.  array lietral may be dict as well. index or type as key.
