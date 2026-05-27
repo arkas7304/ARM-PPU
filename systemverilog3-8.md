@@ -24,4 +24,21 @@
 23. integral:: integer types , packed array, packed struct, packed union, enum, time.
 24. simple bit vector : 1-d packed bits array . integral but no structure , no multidimensional. but packed structure and multidimensional has equivalency and direct conversion mapping.
 25. 4 state -> 2 state : 0 default. truncation MSBs - extension : MSbit dupplication.
-26. 
+26. signed- byte, shortint, int, integer, and longint. unsigned - bit, reg, logic.
+27. void: new :: for function no return value.
+28. Chandle for DPI (4.6)
+29. string type : new - earlier only literal assigned to reg packed array of byte. includes old meaning as well.
+30. string data type arbitray length -no truncation . 0 to N-1 numbering - 0 is first left most.. [0:N-1] mode. "" special.empty as well. indexing empty out-of-bound error.
+31. string assignment to integral as earlier. integral to string requires cast. integral made length multiple of 8 by 0 padding to mSbits. then assigned.
+32. string -> string : \0 ignored . empty or remaining literal.
+33. ==,!= : string equality . but by bit eqality. (comparison) - {str1,str2,str3} , {n{str}} - no chacter literal because no dimension here just pure replication.
+34. str[index] - earlier . str.method - any method which operates on it.
+35. str.len() - length null 0 , str.putc(i,c) ith char replaced by c i<N only. getc. 
+36. str.Toupper, str.Tolower|  Compare - Icompare(case insensitiv) | Substr (i,j) ith and jth included. i<j
+37. atoi, atohex,atobin,atooct -written conversion to integer or else best effort stops when faulty.
+38. Atoreal, itoa,hextoa,octtoa,bintoa,realtoa.
+39. typedef (type) new_type_name.  (type) is an enumeration of new_type_name.
+40. user defined type identifier same scoping rule - except hierarchical reference to type identifier not allowed. so interface through port need recalling of definition.
+41. typedef enum/struct/union/class new_type_name:.
+42. enum for a new type with a custom range of universe :  a set of integral named constants.  - encoding will be done by synthesizer. reference enumareted names not value (value can be encodedl later.
+43. 
