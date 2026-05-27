@@ -41,4 +41,8 @@
 40. user defined type identifier same scoping rule - except hierarchical reference to type identifier not allowed. so interface through port need recalling of definition.
 41. typedef enum/struct/union/class new_type_name:.
 42. enum for a new type with a custom range of universe :  a set of integral named constants.  - encoding will be done by synthesizer. reference enumareted names not value (value can be encodedl later.
-43. 
+43. set of integral named constants - strongly typed - default encoding type int.
+44. enum {....} variable; or typedef enum {} new_type;
+45. enum integer {} .. is explicit and x,z allowed inside. and all assigned must leftmost one can be implicit.
+46. leftmost assignment assumed 0 or explicit. increment then onward or explicit again.
+47. whenever assumed, previous +1 value.
