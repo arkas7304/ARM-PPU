@@ -11,7 +11,7 @@
 11. '{'{3{4,5}},'{3{4,5}}} == '{2{'{3{4,5}}}}
 12. no of different dimension = no of ' -
   a.   innermost elements - fastest dimension count. outer most slowest dimension count.
-  b.   outermost single ', next no of ' =  count of slowest dimensions-> then next slower so on - till repatation allowed or last but one dimension.
+  b.   outermost single ', next no of ' =  count of slowest dimensions-> then next faster so on - till repatation allowed or last but one(fastest) dimension.
 14. literal must have constant expression. must have type. prefix or casting/assignment. context only.
 15.  array lietral may be dict as well. index or type as key.
 16.  c data types but c: 4 bytes longint 8 bytes. float -> shortreal
@@ -19,3 +19,9 @@
 18.  4 state data type logic. traditional but name and separated from object. 
 19.  string, chandle, class - event entended.
 20.  bit data types with 2 states. data types can be parameters to modules. 
+21. shortint(2 byte), int(4 byte), longint(8 byte),byte: signed 2 state int, byte ascii, bit (user defined vector size, 1 bit each ).
+22. reg, integer, time - as earlier. logic new - more generic. reg logic just academic difference.
+23. integral:: integer types , packed array, packed struct, packed union, enum, time.
+24. simple bit vector : 1-d packed bits array . integral but no structure , no multidimensional. but packed structure and multidimensional has equivalency and direct conversion mapping.
+25. 4 state -> 2 state : 0 default. truncation MSBs - extension : MSbit dupplication.
+26. 
