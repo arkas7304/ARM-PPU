@@ -40,9 +40,26 @@
 39. typedef (type) new_type_name.  (type) is an enumeration of new_type_name.
 40. user defined type identifier same scoping rule - except hierarchical reference to type identifier not allowed. so interface through port need recalling of definition.
 41. typedef enum/struct/union/class new_type_name:.
-42. enum for a new type with a custom range of universe :  a set of integral named constants.  - encoding will be done by synthesizer. reference enumareted names not value (value can be encodedl later.
+42. enum : subset range of universe :  a set of integral named constants. universe default integer  - encoding will be done by synthesizer. elements of unniverse : reference enumareted name, not value (value can be encoded later or assigned directly). code can use enumereted name.
 43. set of integral named constants - strongly typed - default encoding type int.
 44. enum {....} variable; or typedef enum {} new_type;
-45. enum integer {} .. is explicit and x,z allowed inside. and all assigned must leftmost one can be implicit.
+45. enum integer {} .. is explicit-type and x,z allowed inside. and all assigned must leftmost one can be implicit.
 46. leftmost assignment assumed 0 or explicit. increment then onward or explicit again.
-47. whenever assumed, previous +1 value.
+47. whenever assumed, previous +1 value. implicit integer canbe overridden by explicit.
+48. enum [type] {}  the encoded value < max value for type (implicit or explicit).
+49. subset element declaration option and its encoding meaning:
+      a. sx; sx = C; sx[C]: shorthand for sx[0],sx[1]..sx[C-1]; sx[C:D] : same as before but starts with C and D inclusive, C<D;  sx[C]= A or s[C:D]=A : same as earlier only sx[0] or sx[C] gets value A and  continues.
+     b. interstingly in same enume declaration {sx[C-1], sx[C:D]} is valid because first one sx[0] to sx[C-1] second on sx[C] to SX[D]. start value can be different.
+50. value assignment increments till redefinition or reassignment and continues.
+51. enum expanding its set - strongly typed - outside set must be converted to acceptable range by cast - or member of union.
+52. the enumeration names themselves : used as constant thorughout the scope. encoded values transfer in elaboration time. All constant usage allowed. ALL MEANS ALL.
+53. uniqueness, integral constant value explicit or elaboration dependent, auto incremented. all one to one mapping.
+54. usage casting - first auto cast to base of the type (implicit int or explicit) - sx = Colors'(sx+1); int I I=C+sx;
+55.  first,last, next(int unsigned N),prev(N) : returns enum Name(value elaboration time).
+56.  operates on variable with the enum-ed type : variable current enumname/value marker. num: total number of the enum set. Name - enum name of the  variable's current enum name.
+57.  struct/union [tagged]   [packed]. eg struct { bit [7:0] opcode; bit [23:0] addr; }IR;
+58.  initialisation within struct:  during struct declaration typedef,  or the variable declarion time by '{'{}} type assignment. individual elements -initialised. variable assignment overrides.
+59.  unpacked structure : member union and packed struct : individual initial values not allowed.
+60.  packed struct whole arithmatic if possible. 1st member most significant. any member 4 state - full 4state.
+61. packed structure - implicit array referencing - [N-1:0]
+62.  
