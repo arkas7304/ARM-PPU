@@ -61,5 +61,12 @@
 58.  initialisation within struct:  during struct declaration typedef,  or the variable declarion time by '{'{}} type assignment. individual elements -initialised. variable assignment overrides.
 59.  unpacked structure : member union and packed struct : individual initial values not allowed.
 60.  packed struct whole arithmatic if possible. 1st member most significant. any member 4 state - full 4state.
-61. packed structure - implicit array referencing - [N-1:0]
-62.  
+61. packed structure - implicit array referencing - [N-1:0] . but real shorteal not allowed in packed struct union. neither unpacked arrays because they break the beauty of packedness.
+62. packed union : packed array - integer data types.  all member same size must. multidimansion c style unified 1 d style. same 4 state overrides 2state.
+63. so that referencing out of bound one member falls into next member automatically. byte ordering of machine independent. cstyle unified.
+64. signed unsigned whole:  packed union or struct only.
+65. tagged union - strong type checking. (32-35 page revisit )
+66. class : expansion of union to packaging. inside elements class properties. can contain function which are method.
+67. 
+68. Unpacked struct or union can not be signed. 
+69. singular type - except (unpacked struct/union/array). aggregate (unpacked struct/union/array) 
