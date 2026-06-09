@@ -69,4 +69,9 @@
 66. class : expansion of union to packaging. inside elements class properties. can contain function which are method.
 67. 
 68. Unpacked struct or union can not be signed. 
-69. singular type - except (unpacked struct/union/array). aggregate (unpacked struct/union/array) 
+69. Singular type - except (unpacked struct/union/array). aggregate (unpacked struct/union/array) 
+70. casting = dest_type '(expression). static cast: compatible -> regular conversion.
+71. signed'(x) -- 1d packed array. real type cast is rounded to ites meaning - function is there : bit representation
+72. packed struct - 1st field MS ...unpacked ordering matters - and structure. packed to packed explicit cast not required.
+73. casting is compile time - so elaboration time out of bound error it can not warn. $cast for that.
+74. unpacked -  bitstream  a superset of unpacked and packed - all items having bits representation, 0 first index, etc MS. but here different size compile error.
