@@ -75,3 +75,12 @@
 72. packed struct - 1st field MS ...unpacked ordering matters - and structure. packed to packed explicit cast not required.
 73. casting is compile time - so elaboration time out of bound error it can not warn. $cast for that.
 74. unpacked -  bitstream  a superset of unpacked and packed - all items having bits representation, 0 first index, etc MS. but here different size compile error.
+75. array - 0 to N-1 in c . each element wise access in c. verilog left-b to right-b . vector - asignment together array not.
+76. verilog to sv : vector becomes packed - array becomes unpacked - all are array.
+77. packed arrays - multidimensional - guranteed contiguous sets of bits. 1d packed array vector.
+78. packed array -signed - single vector signed - any individual unsigned -unless the type is signed defined. part-select unsigned.  atleast 2^16 bits size in total.
+79. predefined integer type can not be element type. but bit signed [10:0] allowed. unpacked this restriction removed.
+80. int Array[8][32] === int Array[0:7][0:31] - only for unpacked.
+81. packed unpacked both A=B, A[i:j]= B[i:j] A[X+:c] =B[X+:c], equality operations.
+82. unpacked array not allowed , A = 8’b11111111 (bit-stream), A+3.
+83. unpacked signed - each individual element signed.assignment same dimensional structure. - packed array - vector - dimension not important - cross dimension size less assignments ok.
