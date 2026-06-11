@@ -84,3 +84,11 @@
 81. packed unpacked both A=B, A[i:j]= B[i:j] A[X+:c] =B[X+:c], equality operations.
 82. unpacked array not allowed , A = 8’b11111111 (bit-stream), A+3.
 83. unpacked signed - each individual element signed.assignment same dimensional structure. - packed array - vector - dimension not important - cross dimension size less assignments ok.
+84. Index belonging to dimension - 1st to refer is slowest - right  of next to name then towards right then rollover - then 1st from left before name. just before name fastest. (page 44 or 60)
+85. 1st referred rest not referred means - what is left that structure comes together 
+86. bit [3:0] [7:0] joe [1:10];  joe[9] = joe[8] + 1 -> 8th [3:0] [7:0] joe  gets added with 1 and put in same of 9th.  [3:0] [7:0]  is packed so they can be treated 32 bits while adding.
+87. reference  starts from slowest. always.- even when partial
+88. typedef bit [1:5] bsix; bsix [1:10] foo5; - same for unpacked.
+89. packed dimension portion - multiple different array for declaration - bit [7:0] [31:0] foo7 [1:5] [1:10], foo8 [0:255];
+90. outof bound - no op write - uninitialised value for read guranted. warning /error not mandated by LRM.
+91. 
