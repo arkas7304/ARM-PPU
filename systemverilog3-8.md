@@ -91,4 +91,16 @@
 88. typedef bit [1:5] bsix; bsix [1:10] foo5; - same for unpacked.
 89. packed dimension portion - multiple different array for declaration - bit [7:0] [31:0] foo7 [1:5] [1:10], foo8 [0:255];
 90. outof bound - no op write - uninitialised value for read guranted. warning /error not mandated by LRM.
-91. 
+91. part select - packed array - or integer array number down to 0.
+92. slice - sv - extends beyond single element- unpacked array as well - unavailable in verilog beyond single element.
+93. slice or part select of packed array - packed array - same uniformity.
+94. size of part-select constant position can vary.
+95. slice - apply to one dimension alone.however single index free to go with it.
+96. Dynamic - only unpacked - size not predefine. needs new operator. adds or shrinks. size op - current size
+97. assign to unpacked - same no of dimemsion - each dsame length - elements . left most to leftmost. irrespective of index no during assignments. dynmic -tonfro - fixed same cond.
+98. array to func as arg - pass by value - array assignment condition because a copy going.
+99. Associative array is dict from python.  declaration is for key type instead of size.
+100. wild card key/index - index any integral -evaluate the integer with zeros. nonintegral illegal. 4 state invalid. unsigned. autocast to bit vector and then representing an integer. ordering numerical lowest to highest.
+101. string index - all string unique - empty string included. lexographical ordering - most like pyhton dict.
+102. class index - some class only that class. order deterministic but arbitray.
+103. integer index -32 bit. signed.any integral
