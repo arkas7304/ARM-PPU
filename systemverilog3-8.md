@@ -103,4 +103,20 @@
 100. wild card key/index - index any integral -evaluate the integer with zeros. nonintegral illegal. 4 state invalid. unsigned. autocast to bit vector and then representing an integer. ordering numerical lowest to highest.
 101. string index - all string unique - empty string included. lexographical ordering - most like pyhton dict.
 102. class index - some class only that class. order deterministic but arbitray.
-103. integer index -32 bit. signed.any integral
+103. integer index -32 bit. signed.any integral.
+104. signed packed array - as key, interpreted as integer - signed - ,fit to index size. signed numerical ordering.
+105. unsigned packed array - as key, interpreted as integer - signed - ,fit to index size. signed numerical ordering.
+106. invalid index - raning must in sim and default value returned/ write ignored - same principle followed in elab.
+107. typedef struct as key - cond. equality operator satisfiability, relationnal operator defined and fixed at least for a single run.
+108. num| delete ,exists | first , last , next ,prev for some function ref is pointer.
+109. associative array - assignment - same index type same size type . same for arguments in function. associative array literal - '{index:value}  syntax .
+110. Queues - variable size - homogenous element - ordered collection. ordered number 0 to $.
+111. 1d unpacked array increasing decreasing size.  $ in size unpacked array becomes queue.
+112. all like dynamic array - diff empty queue. mostly right most or left most op.
+113. diff from dynamic array - conditions b>a for Q[a:b] else {} etc. push pop methods.
+114. array manipulation method - with
+115. Array locator - any unpacked array - return type is queue. - search for element /element-index that satisfy a given expression. find , find_index , find_first , find_first index, find_last, find_last_index.
+116. e.g.  IA.find( x ) with ( x > 5 ) . if min, max, unique, unique_index  - may not need with if  > < == defined for element type. and with clause requires the type to be valid for same by default.
+117. reverse, sort (with allowed), rsort(with allowed),  shuffle  -
+118. array reduction - sum product and or xor ... with item operates as needed first.
+119. 
