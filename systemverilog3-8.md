@@ -119,4 +119,10 @@
 116. e.g.  IA.find( x ) with ( x > 5 ) . if min, max, unique, unique_index  - may not need with if  > < == defined for element type. and with clause requires the type to be valid for same by default.
 117. reverse, sort (with allowed), rsort(with allowed),  shuffle  -
 118. array reduction - sum product and or xor ... with item operates as needed first.
-119. 
+119. iterator index querying - may need actual array index - in q = arr.find with ( item == item.index );  q = mem.find( x ) with ( x > mem2[x.index(1)][x.index(2)] );
+120. verilog contants - literal -genvars paramaters,localparam, specparam. variable and nets.
+121. variable - is extended like wire. reg replaced by logic - the commong name for variable now.
+122. static  or automatic - in entry of scope and only to that scope - that means paricular register if synth is local temp only. static over ride of a variable in a scope with default automatic.
+123. non-procedural context - automatic keyword itself is invalid. var keyword only allows absence of data type for explicit list of variable.
+124. 
+
