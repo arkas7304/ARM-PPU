@@ -123,6 +123,16 @@
 120. verilog contants - literal -genvars paramaters,localparam, specparam. variable and nets.
 121. variable - is extended like wire. reg replaced by logic - the commong name for variable now.
 122. static  or automatic - in entry of scope and only to that scope - that means paricular register if synth is local temp only. static over ride of a variable in a scope with default automatic.
-123. non-procedural context - automatic keyword itself is invalid. var keyword only allows absence of data type for explicit list of variable.
-124. 
-
+123. non-procedural context - automatic keyword itself is invalid. var keyword only allows absence of data type for explicit list of variable. absence of const is var.
+124. const lifetime {datatype|type_decl|package import decl|virtual interfaxe| list of variable decl(regular item) }   : data declaration 
+125. net_type [v|c] [vectored|scalar] data_type [delay3] listofnet                  : net declaration
+126. constants : parameter|localparam|specparam|const.  - eaboratiion time all const.
+127.  (const/parameter passing orverrdigin block) in instantiation. or defparam using hierarchichal path. constants  [data_type] l_p(list of param) or constants type list_of_type (e.g parameter type p2 = shortint )
+128.  specparam_declaration ::= 
+specparam [ packed_dimension ] list_of_specparam_assignments ; data_type includes sign and packed dimensions as well. list include unpacked dimensions as well. specparam assignment is minmax expresion others constant type.  type param can not be used with defparam.
+129. compatibility with verilog - when no data type -> type determined by values passed.
+130. rhs type - real or integral when not explcit. logic vector becomes centre.
+131. inside generate scope specific localparam - highest priority. pramaeter name may be used but it is actually localparam when used here.(page 67)
+132.  $ as a parameter value -> the parameter instead of $ wherever $ can be used.
+133.  list of parameter - paramemeter derived from just previoius parameter in same list.
+134.
