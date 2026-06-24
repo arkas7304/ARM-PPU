@@ -134,5 +134,12 @@ specparam [ packed_dimension ] list_of_specparam_assignments ; data_type include
 130. rhs type - real or integral when not explcit. logic vector becomes centre.
 131. inside generate scope specific localparam - highest priority. pramaeter name may be used but it is actually localparam when used here.(page 67)
 132.  $ as a parameter value -> the parameter instead of $ wherever $ can be used.
-133.  list of parameter - paramemeter derived from just previoius parameter in same list.
-134.
+133.  list of parameter - paramemeter derived from just previoius parameter in same list. omitti ng paramater alone is sv special.
+134. const -> fixed just at the time of sim.  all type const type .
+135. vRIABLES - data type {list_of_vars}. var with implicit logic option.
+136. all posibilities with initial - allocation - expression run-time 0 event evaluation etc.
+137. initialisation value in sv is before intial block , verilog alongwith initial block.
+138. nets - trireg, wire followed by data type allowed. any 4 state data type in sv , verilog scalar or bit-vector. default logic.
+139. restrictions - unpacked array or unpacked struct - each element must be valid. strength proragation same as verilog.
+140. inout wire reg - error .
+141. 
