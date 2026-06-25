@@ -142,4 +142,10 @@ specparam [ packed_dimension ] list_of_specparam_assignments ; data_type include
 138. nets - trireg, wire followed by data type allowed. any 4 state data type in sv , verilog scalar or bit-vector. default logic.
 139. restrictions - unpacked array or unpacked struct - each element must be valid. strength proragation same as verilog.
 140. inout wire reg - error .
-141. 
+141. data declared outside a module, interface task, process function - inside the module or interface local but static.
+142. in automatic task, function or block - lifetime automatic of the call  and local.
+143. in synth that translates to every function becoming separate instance -locally.
+144. data in static function becomes static. task too . data can be declared in named or unnamed blocks.
+145. unnamed - local and any block below it. no hierarchichal ref outside this.
+146. default life time static - applies to data within task,func, block definied within a modules.
+
