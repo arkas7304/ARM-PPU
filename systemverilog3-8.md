@@ -146,6 +146,19 @@ specparam [ packed_dimension ] list_of_specparam_assignments ; data_type include
 142. in automatic task, function or block - lifetime automatic of the call  and local.
 143. in synth that translates to every function becoming separate instance -locally.
 144. data in static function becomes static. task too . data can be declared in named or unnamed blocks.
-145. unnamed - local and any block below it. no hierarchichal ref outside this.
+145. unnamed block - local and any block below it. no hierarchichal ref outside this.
 146. default life time static - applies to data within task,func, block definied within a modules.
+147. automatic task & function - all automatic - data within task or function may be static if intended.
+148. fork..join join_any join_none - lifetime encomapasses all child and enclosingn block.
+149. static data within automatic - only local scope but static.
+150. for loop variables.- automatic by default -
+151. automatic variables - member/element of dynamic variables -  not to be updated with nonblocking, continuous or procedural continuous.
+152. nets  - one or more cont assignments , primitive/module output.resolution function of multidrive. procedurall asignment blocked. froced can override - return to resolved value.
+153. verilog: variable - multiple procedural statements - last one wins- no coninuous assignment - force overrides procedural assign > assign > normal assignments. no port cross.
+154. sv : one continuous or (1 or more procesural including procedural assignment). no multiple continuous assignment. or mix or procedure and continuous . to any termin in the expansion of written longest static prefix.
+155. individual element assignment always evaluated individually packed or unpacked. slice assignment single assignment. no mix of cont. or procedural between elements of packed. unpacked can have. multiple continuous for multiple elemenet of packed given each element only once.
+156. release does not change the variable till next assignment. or reevaluation of continuous assignment.
+157. variable to port allowed in sv - continuous assignment assument. so assignment to a variable declared as input becomes logically illegal. inout variable not allowed - ref ports.
+158. typer conversion automatic - strength in lost in continuous assignment. initialisation not implicit continuous but procedural unlike net.
+159. 
 
