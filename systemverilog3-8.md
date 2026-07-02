@@ -160,5 +160,15 @@ specparam [ packed_dimension ] list_of_specparam_assignments ; data_type include
 156. release does not change the variable till next assignment. or reevaluation of continuous assignment.
 157. variable to port allowed in sv - continuous assignment assument. so assignment to a variable declared as input becomes logically illegal. inout variable not allowed - ref ports.
 158. typer conversion automatic - strength in lost in continuous assignment. initialisation not implicit continuous but procedural unlike net.
-159. 
-
+159. assign - signal aliasing - unidirectional statement - alias models birectional wire. e.g. a byte swap module needs to work both ways both being inout.
+160. packed union rules - each member same size. incompatible type joining not allowed like wand and wor. variable and hierarchichal reference alias not allowed. fatal error for violation. same net inmultiple alias - making equality of naming. aliasing a elaboration time mapping construct.
+161. each instance with user-defined type declared inside - unique type within that instance and down. higher level than the declaration point .
+162. self , typedef creates chain,  struct/enum/union with same type and among themselves in same line declaration. even themselves different line no match. again typedef can chain 
+163. bit-vector of no predefined wdth vs one with predefined width - match only if - same stateness , same signed, same width and same range marker.
+164. unpacked - same no of dimension - slowest varying having same left and right bound and same type.
+165. typedef logic [1:0] [3:0] NIBBLES; typedef logic [7:0] MY_BYTE; they do not match even if packed.
+166. equivalent superset of match . - unpacked struct , anonymous enum unpacked union - only among themselves that too same line. all packed equivalent if same no of total bit - same state - same sign. any bit 4 state - full 4 state.
+167. equivalent elemnt and dimension shape exact - not actual index range.
+168. assignment compatible is superset of equivalence - implicit casting - sometimes one direction too like enum to integral. (little pending).
+169. Cast compatible explicit casting rule. casting already described.
+170. type incompatible are rest.
