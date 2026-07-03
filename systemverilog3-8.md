@@ -171,4 +171,25 @@ specparam [ packed_dimension ] list_of_specparam_assignments ; data_type include
 167. equivalent elemnt and dimension shape exact - not actual index range.
 168. assignment compatible is superset of equivalence - implicit casting - sometimes one direction too like enum to integral. (little pending).
 169. Cast compatible explicit casting rule. casting already described.
-170. type incompatible are rest.
+170. type incompatible are rest. type operator extracts the type - which then can be assigned to a new variable or data type. use for declaration var or net to be used.
+171. chapter 7 class - pending.
+172. verilog + c -> sv operators :  type and size of operands are fixed.
+173. += or -= new here. ! as unary treats whole vector value against 0.
+174. +, -,!(logical),~&, ~, &, |,~|, ^, ~^, ^~ :  unary from v - new unary in sv : ++ -- @integer
+175. real shortreal only _ - !
+176. /** :verilog same 
+177. /* / % :verilog same
+178. +,- binary: v
+179. << >> <<< >>> : verilog same  - shifts : <<< just makes it unsigned if signed. result identical. >>> is arithmatic keeps signedness.
+180. <, >,<=,>= inside dist : inside dist is just extra in sv.
+181. == != === !==, verilog  ==? !=?: systemverilog additional.
+182.   & (binary)
+183.   ^ ~^ ^~ (binary)
+184.   | (binary) 
+185.   &&
+186.   ||
+187.   ?:  @ any expression
+188.   -> : new sv
+189.   new sv assignment: +=,-=,/=,*=  %= &= ^= |=  <<= >>= <<<= >>>= := :/ <=
+190.   {} {{}}
+191.   
