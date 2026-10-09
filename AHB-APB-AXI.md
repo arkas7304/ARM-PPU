@@ -1,5 +1,6 @@
-1. 
-
+1.  APB2: P:CLK-RESETn-ADDR-SELx-EN-WR-WDATA-RDATA
+2.  APB3: P READY-extension. SLVERR 
+3.  APB4: PPROT , PSTRB 
 
 
 
