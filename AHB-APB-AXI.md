@@ -1,7 +1,27 @@
-1.  APB2: P:CLK-RESETn-ADDR-SELx-EN-WR-WDATA-RDATA
-2.  APB3: P READY-extension. SLVERR 
-3.  APB4: PPROT , PSTRB 
+1.  APB2: P:CLK-RESETn-ADDR(MAX32)-SELx-EN-WR-WDATA(8/16/32)-RDATA(8/16/32)
+2.  APB3(OO): P READY-extension. SLVERR 
+3.  APB4(O): PPROT , PSTRB :: APB5 (C): PNSE PWAKEUP PAUSER PWUSER PRUSER PBUSER
+4. APB2 : Write -> pos_edge: master ->sel l2h :en low: (addr,write,wdata valid already or next edge). next edge same with en l2h - next edge end sampled high but falls write happens. everyone falls.
+5. APB3 pready if h2l in 2nd edge sampled low in 3rd stage enh2l doesnt happen till both en and pready == high.
+6. APB2:READ -> same pwrite low this time but again maintains with addr and sel, end goes l2h in second edge. ideally data and ready goes valid and high and sampled in 3rd edge. APB3: READ ->   however if master sees in 3rd edge en==1 but ready==0 then continues till ready==1 also sampled and at that edge latch the valid data.
+7. APB3: 3rd edge : SELx neednt go low if another transfer starts but then en must go low.
+8. APB3:SLVERR: RECEIVED BY MASTER: SAMPLED ONLY IN 3RD EDGE.(no rigid restriction of data validity by spec). (optional but master must tie low in absence)
+9. APB3 : ERR -> AXI RRESP BRESP :: AHB:HRESP.
+10. APB4: for PSTRB[n]==1 PWDATA[(8n + 7):(8n)] valid :: read PSTRB[n]=0. completer input to be tied high when mismatch.(write)
+11. APB4: PROT(0):: 0-normal/priviledge. PROT(1):: 0-secure/1-nonsecure. PROT(2):0-data/1-instr.
+12. completer/slave with PROT may be incompitable for mismatched master.
+13. APB5: NSE==1 SECURE BECOMES root and non-secure become realm. (property based)
+14. requester with NSE incomplatible with mismatched master. reverse just tie low.
+15. completer permitted wait for WAKEUP before ready - interface risk deadlock.
+16. pwakeup if high already must not change between sel to ready high. sync to PCLK from reg..
+17. APB master slave clock gating together cdc behind slave is just a recommendation.
+18. PSEL,PWAKEUP- always valid. PREADY only valid - SEL & EN high. rdata,slverr,r/buser must give back valid in data phase.
 
+ 
+
+
+   
+   
 
 
 
