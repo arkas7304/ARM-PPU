@@ -1,3 +1,37 @@
+1. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 1. AHB3/AHB-lite. Burst-length: undef,4,8,16. and single. all equations in bytes. no of beats - each beat:  (1 cycle data+ wait) - ALWAYS 1 LEVEL PIPELINE. BEAT LENGTH BL= 2*(2**HBURST [2:1]) for >1 = (2 ** (HBURST [2:1]+1)) for >1 = (1<< (HBURST [2:1]))<<(|HBURST[2:1])
 
 2.  INCR = HBURST[0] , WRAP = !HBURST[0]. for beat_length 1 and INCR beath length shall be ignored
