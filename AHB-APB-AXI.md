@@ -34,14 +34,15 @@
 33. INCR = HBURST[0] , WRAP = !HBURST[0] when HBURST[2:1] !=0 , SINGLE= ~(|(HBURST[2:0])) 
 34. total data TD = (1<<HSIZE) * BL. IN BL>1  = (1<<(HSIZE+HBURST [2:1]+1)).
 35. start_addr[31:10] == end_addr[31:10] in a burst. for incr (start_addr[9:0] + TD - 1) <= 10'h3FF
-36. SEQ:WRAP:
-    TD - DEFINITELY some 2's power  so N=LOG2(TD) . eg 16 byte -> N = 4
-    so N-1 = HSIZE+HBURST [2:1] e.g. 3 
-    wrap_base = SA &(SA[N-1:0]=0)
-    inc_address[n] = address[n-1] + (1<<HSIZE)    
-    addr[n] =  { SA[M:N],  inc_address[N-1:0]}  EQUIVALENT TO    addr[n] = wrap_base + (inc_address- wrap_base) % WB  
-    
-38.
+36. SEQ:WRAP: 
+    WB=TD =(1<<(HSIZE+HBURST [2:1]+1)) - DEFINITELY some 2's power  so N=LOG2(TD)  . eg 16 byte -> N = 4 (ARM life)
+    N-1 = HSIZE+HBURST [2:1] e.g. 3 
+    wrap_base = SA - (SA%WB) = FLOOR[SA/WB] = SA &(SA[N-1:0]=0)
+    addr[0]= SA
+    inc_address_n = address[n-1] + (1<<HSIZE)    for all n < (1<<(HBURST [2:1]+1))
+    addr[n] =  { SA[M:N],  inc_address_n[N-1:0]}  EQUIVALENT TO    addr[n] = wrap_base + (inc_address_n- wrap_base) % WB  
+    where M is the highest bit.    
+37. 
 39.
 40. min address space for a slave 1 KB. ADDR[0][HSIZE-1:0] == '0 . must meet for start. for HSIZE>0. 
 
