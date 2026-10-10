@@ -17,11 +17,30 @@
 17. APB master slave clock gating together cdc behind slave is just a recommendation.
 18. PSEL,PWAKEUP- always valid. PREADY only valid - SEL & EN high. rdata,slverr,r/buser must give back valid in data phase.
 
- 
+19. Now - AHB3 AHBlite - en-sel vanishes - 1 stage pipeline - we have option now for burst - addressline folllow same 1 stage pipelining in burst sequence. so during data address can be next address.
+20. HWRITE is tied to the address phase HREADy now for each data phase.
+21. HREADY extension - 1 stage pipeline freezes - so next address phase extends as well.
+22. HTRANS - 00: NO DATAPHASE- BUT ANYWAY invalid ADDRESS COMES - previous DATA appears - next cycle it sticks  - okay RESPONSE must from slave.
+23. HTRANS - 01: Busy - only undef/INCR HBURST last transfer can be busy then idle or nonseq may follow - busy after atleast first NONSEQ  - next addr comes. and it will repeat address and other control will just repeat - that next one data (corresponding to present busy) is invalid. others : only between seq hence during wait when busy to seq then seq must be holding till hready edge happen. 
+24. HTRANS - 01: Busy - INCR during wait - busy to any type allowed even new. 
+25. 10,11 : NONSEQ-SEQ -- single/first transfer,consecutive transfer in a burst- everyaddress one trans value.NONSEQ -- ADDRESS/CTRLS unrelated to previous ; seq-related - addr[n] = addr[n-1]+ transfer size n>0  
+26. nonseq: next one any hready will delay. doesnt matter nextone idle or not.
+27. HSIZE and HBURST. HBURST>1 case now.
+28. HMASTLOCK -HIGH - ONLY FOR MPMC - ENSURES ORDER OF READ WRITE MUST-IDLE must follow.
+29. TFS= (2** HSIZE) = (1<<HSIZE) measured in bytes NOT BITS .TFS <= length (HWDATA)
+30. HBURST[2:1] !=0 &&  BL = (2 ** (HBURST [2:1]+1)) = NO OF BEATS/ADDRESS CHANGE.
+31. ADDR_0[HSIZE-1:0] == '0 . must meet for start. BYTE HSIZE 0 anyway by default byte
+32. each address 1 byte - ARM life. address_n = address_n-1 + (1<<HSIZE).
+33. INCR = HBURST[0] , WRAP = !HBURST[0] when HBURST[2:1] !=0 , SINGLE= ~(|(HBURST[2:0])) 
+34. total data TD = (1<<HSIZE) * BL. IN BL>1  = (1<<(HSIZE+HBURST [2:1]+1)).
+35. start_addr[31:10] == end_addr[31:10] in a burst. for incr (start_addr[9:0] + TD - 1) <= 10'h3FF
+   min address space for a slave 1 KB. ADDR[0][HSIZE-1:0] == '0 . must meet for start. for HSIZE>0. 
 
+30. 
+  
 
+    
    
-   
 
 
 
@@ -53,26 +72,18 @@
 
 
 
-1. AHB3/AHB-lite. Burst-length: undef,4,8,16. and single. all equations in bytes. no of beats - each beat:  (1 cycle data+ wait) - ALWAYS 1 LEVEL PIPELINE. BEAT LENGTH BL= 2*(2**HBURST [2:1]) for >1 = (2 ** (HBURST [2:1]+1)) for >1 = (1<< (HBURST [2:1]))<<(|HBURST[2:1])
-
-2.  INCR = HBURST[0] , WRAP = !HBURST[0]. for beat_length 1 and INCR beath length shall be ignored
+2.  for beat_length 1 and INCR beath length shall be ignored
 
 3. Burst total :  no of beat + starting address phase.
 
 4. data/beat = (2** HSIZE) = (1<<HSIZE) //  2**HSIZE <= DATA_width must for data
 
-5. total data TD = (1<<HSIZE) * BL. IN BL>1  case:  (1<<(HSIZE+HBURST [2:1]+1))
-
+5. 
 6. total length/no of cycle = 1 start + wait_states/idle/busy_states+no of beats (N)
 
 7. Addr incr total 1KB address boundary - no cross - 1024 bytes max. can be smaller based on starting. 
 
-8. start_addr[31:10] == end_addr[31:10] in a burst. for incr (start_addr[9:0] + TD - 1) <= 10'h3FF
-   min address space for a slave 1 KB. ADDR[0][HSIZE-1:0] == '0 . must meet for start. for HSIZE>0. 
-
-9. address[n] = address[n-1] + (1<<HSIZE) 
-  
-
+8. 
 10. DW ={1,...,128} IN BYTES. byte lane HxDATA[FL:SL]. SL = ADDR[n][log2(DW)-1:0] : each lane 1 byte. fl = SL + (1<<HSIZE) -1  for all/any n
 
 11. AHB2 - ERROR : 2 BIT : OKAY, ERROR, RETRY SPLIT.
