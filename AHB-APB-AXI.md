@@ -29,12 +29,21 @@
 28. HMASTLOCK -HIGH - ONLY FOR MPMC - ENSURES ORDER OF READ WRITE MUST-IDLE must follow.
 29. TFS= (2** HSIZE) = (1<<HSIZE) measured in bytes NOT BITS .TFS <= length (HWDATA)
 30. HBURST[2:1] !=0 &&  BL = (2 ** (HBURST [2:1]+1)) = NO OF BEATS/ADDRESS CHANGE.
-31. ADDR_0[HSIZE-1:0] == '0 . must meet for start. BYTE HSIZE 0 anyway by default byte
+31. SA[HSIZE-1:0] == '0 . must meet for start. BYTE HSIZE 0 anyway by default byte
 32. each address 1 byte - ARM life. address_n = address_n-1 + (1<<HSIZE).
 33. INCR = HBURST[0] , WRAP = !HBURST[0] when HBURST[2:1] !=0 , SINGLE= ~(|(HBURST[2:0])) 
 34. total data TD = (1<<HSIZE) * BL. IN BL>1  = (1<<(HSIZE+HBURST [2:1]+1)).
 35. start_addr[31:10] == end_addr[31:10] in a burst. for incr (start_addr[9:0] + TD - 1) <= 10'h3FF
-   min address space for a slave 1 KB. ADDR[0][HSIZE-1:0] == '0 . must meet for start. for HSIZE>0. 
+36. SEQ:WRAP:
+    TD - DEFINITELY some 2's power  so N=LOG2(TD) . eg 16 byte -> N = 4
+    so N-1 = HSIZE+HBURST [2:1] e.g. 3 
+    wrap_base = SA &(SA[N-1:0]=0)
+    inc_address[n] = address[n-1] + (1<<HSIZE)    
+    addr[n] =  { SA[M:N],  inc_address[N-1:0]}  EQUIVALENT TO    addr[n] = wrap_base + (inc_address- wrap_base) % WB  
+    
+38.
+39.
+40. min address space for a slave 1 KB. ADDR[0][HSIZE-1:0] == '0 . must meet for start. for HSIZE>0. 
 
 30. 
   
@@ -84,8 +93,7 @@
 7. Addr incr total 1KB address boundary - no cross - 1024 bytes max. can be smaller based on starting. 
 
 8. 
-10. DW ={1,...,128} IN BYTES. byte lane HxDATA[FL:SL]. SL = ADDR[n][log2(DW)-1:0] : each lane 1 byte. fl = SL + (1<<HSIZE) -1  for all/any n
-
+10. 
 11. AHB2 - ERROR : 2 BIT : OKAY, ERROR, RETRY SPLIT.
 
 12. preemption when extreme latency - re arbitration for pending.
@@ -101,12 +109,7 @@
 
 17. SEQ: Addr determined by prev. eq.8 is valid from 2nd beat's address. control remains same throughout. 
 
-18. SEQ:WRAP: WB= N * (1<<HSIZE) ; wrap_base = floor(start_addr / WB) * WB .. from 0 to WB-1 wrapping. 
-
-    inc_address[n] = address[n-1] + (1<<HSIZE)    
-    addr[n] = wrap_base + (inc_address- wrap_base) % WB
-    start_addr unrestricted.
-
+18. 
 19. multi master case: if burst termination forced - rebuild of burst at next point onward after reacquire - this requirement not there in ahb-lite AMBA 3 but there in AHB2.
 
 20. HPROT : 3-cacheable 2- bufferable 1-priviledged 0: data/op.
