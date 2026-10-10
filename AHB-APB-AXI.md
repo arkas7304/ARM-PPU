@@ -42,11 +42,18 @@
     inc_address_n = address[n-1] + (1<<HSIZE)    for all n < (1<<(HBURST [2:1]+1))
     addr[n] =  { SA[M:N],  inc_address_n[N-1:0]}  EQUIVALENT TO    addr[n] = wrap_base + (inc_address_n- wrap_base) % WB  
     where M is the highest bit.    
-37. 
-39.
-40. min address space for a slave 1 KB. ADDR[0][HSIZE-1:0] == '0 . must meet for start. for HSIZE>0. 
-
-30. 
+37. incr burst 1KB boundary must honor. min address space for a slave 1 KB. ADDR[0][HSIZE-1:0] == '0 . must meet for start. for HSIZE>0.
+38. ERROR - can cel or continue. if cancel - no rebuild requirement.
+39. Master cannot terminate burst request early - but slave must be tolerant. because interconnect can terminate for multimaster.
+40. During Wait Master can introduce IDLE TO NONSEQ if IDLE is allowed as per sequence. so at earliest first one idle because hready starts with data phase of previous. thenONWARDS nonseq CONSTANT Till HReady rising. 
+41. SEQ-DATPHASE-HREADYDOWN BUSYUP THEN SEQ may come - then constant till HREADY high. for fixed length case
+42. incr- last seq -data hready- then busy put and change to NONSEQ for new type - it must hold same TRANS.
+43. address  for idle can change others must hold during wait. error during wait last cycle - master permitted to change adress even as low.
+44. PROTS added from APB -2 sifted to 0 0 to 1. then 2 non/bufferable 3 non/cacheable.
+45. DEFAULT SLAVE with blank address space - address space no overlap. SEQ/NONSEQ ERROR. IDLE/BUSY OKAY. ERROR RESPONSE TIED TO DATA PHASE. MAY BE in wait state.
+46. HREADYOUT from each SLAVE- Muxed HREADY to master and back to slave in for monitoring.
+47. HRESP:HREADY :: 00 REGULAR PENDING 01 TRANSFER SUCCESSFUL DATA PHASE 10 ERROR RESPONSE CYCLE 1 11 ERROR RESPONSE CYCLE 2. REMEMBER HAPPENS IN DATA STAGE PIPELINE always maintained.
+48. 
   
 
     
