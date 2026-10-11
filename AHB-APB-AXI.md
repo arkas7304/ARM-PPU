@@ -29,7 +29,7 @@
 28. HMASTLOCK -HIGH - ONLY FOR MPMC - ENSURES ORDER OF READ WRITE MUST-IDLE must follow.
 29. TFS= (2** HSIZE) = (1<<HSIZE) measured in bytes NOT BITS .TFS <= length (HWDATA)
 30. HBURST[2:1] !=0 &&  BL = (2 ** (HBURST [2:1]+1)) = NO OF BEATS/ADDRESS CHANGE.
-31. SA[HSIZE-1:0] == '0 . must meet for start. BYTE HSIZE 0 anyway by default byte
+31. SA[HSIZE-1:0] == '0 . must meet for start. BYTE HSIZE 0 anyway by default byte. 1KB boundary also.
 32. each address 1 byte - ARM life. address_n = address_n-1 + (1<<HSIZE).
 33. INCR = HBURST[0] , WRAP = !HBURST[0] when HBURST[2:1] !=0 , SINGLE= ~(|(HBURST[2:0])) 
 34. total data TD = (1<<HSIZE) * BL. IN BL>1  = (1<<(HSIZE+HBURST [2:1]+1)).
@@ -53,7 +53,14 @@
 45. DEFAULT SLAVE with blank address space - address space no overlap. SEQ/NONSEQ ERROR. IDLE/BUSY OKAY. ERROR RESPONSE TIED TO DATA PHASE. MAY BE in wait state.
 46. HREADYOUT from each SLAVE- Muxed HREADY to master and back to slave in for monitoring.
 47. HRESP:HREADY :: 00 REGULAR PENDING 01 TRANSFER SUCCESSFUL DATA PHASE 10 ERROR RESPONSE CYCLE 1 11 ERROR RESPONSE CYCLE 2. REMEMBER HAPPENS IN DATA STAGE PIPELINE always maintained.
-48. 
+48. 1,2,4,8,16,32,64,128 BYTES only so bytes are 2**k - k 0 to 7 .  (1<<HSIZE) : TS <= DW/8 (data_width IN BYTE) ; SA[HSIZE-1:0] == '0
+    Q1: SA falls where - by D=DW/8 in bytes - then (SA%D)==0 -> SA[k-1:0] = 0 - thats for start align -
+    Q2: NOW , think they are not -> HSIZE <= k : no_of_narrow transaction or lanegroup:  (k-HSIZE)+1 = L
+    Q2.a: then  (HSIZE mod k) is the byte lane No. and we know HSIZE mod k then mask order -  HSIZE & ~{3{HSIZE == k}};
+    
+
+HADDR[K] -> SELECTOR 0 -> K-1 : 2**K diffterrent address means 2 **K bytes -> more widers K..N address works as selector. narrow slave on wide bus. - latch selector address with HREADY as enable.
+- kind of lane selection - and reverse lane selection.
   
 
     
@@ -159,8 +166,7 @@
 
 38. HRESP 1 - error - must be two type of Hready - wait and then 1.
 39. reccommendation max 16 wait states.  1 error sampling by master is enough to terminate by an idle transaction.
-40. HADDR[K] -> SELECTOR 0 -> K-1 : 2**K diffterrent address means 2 **K bytes -> more widers K..N address works as selector. narrow slave on wide bus. - latch selector address with HREADY as enable.
-- kinde of lane selection - and reverse lane selection.
+40. 
 
   AHB3 lite  -> 2015 version B ->
 
