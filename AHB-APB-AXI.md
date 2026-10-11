@@ -54,12 +54,14 @@
 46. HREADYOUT from each SLAVE- Muxed HREADY to master and back to slave in for monitoring.
 47. HRESP:HREADY :: 00 REGULAR PENDING 01 TRANSFER SUCCESSFUL DATA PHASE 10 ERROR RESPONSE CYCLE 1 11 ERROR RESPONSE CYCLE 2. REMEMBER HAPPENS IN DATA STAGE PIPELINE always maintained.
 48. 1,2,4,8,16,32,64,128 BYTES only so bytes are 2**k - k 0 to 7 .  (1<<HSIZE) : TS <= DW/8 (data_width IN BYTE) ; SA[HSIZE-1:0] == '0
-    Q1: SA falls where - by D=DW/8 in bytes - then (SA%D)==0 -> SA[k-1:0] = 0 - thats for start align -
-    Q2: NOW , think they are not -> HSIZE <= k : no_of_narrow transaction or lanegroup:  (k-HSIZE)+1 = L
-    Q2.a: then  (HSIZE mod k) is the byte lane No. and we know HSIZE mod k then mask order -  HSIZE & ~{3{HSIZE == k}};
-    
+    Q1: SA falls for full bus - by D=DW/8 in bytes - then (SA%D)==0 -> SA[k-1:0] = 0 - thats for start align - we know 
+    Q2: NOW , think they are not -> always condition HSIZE <= k : no_of_narrow transaction or lanegroup: 2^(k - HSIZE)  and lanegroup no = floor((SA % D) / TS) = ADDRESS[k-1:HSIZE] lane
+    Q3. HENCE , starting BYTE LANE segment - m=ADDRESS[k-1:0] determines which no .so WD [(m+(1<<HSIZE))*8-1 :m*8]
 
-HADDR[K] -> SELECTOR 0 -> K-1 : 2**K diffterrent address means 2 **K bytes -> more widers K..N address works as selector. narrow slave on wide bus. - latch selector address with HREADY as enable.
+49. for big endian - g=((1<<k)/(1<<HSIZE)) -1 - ADDRESS [K-1:HSIZE] lanegroup no. m=ADDRESS[k-1:0] 
+                     WD [ ((1<<K)-m)*8-1   :((1<<K)-(m+(1<<HSIZE)))*8]
+    
+HADDR[K] -> SELECTOR 0 -> K-1 : 2**K differrent address means 2 **K bytes -> more widers K..N address works as selector. narrow slave on wide bus. - latch selector address with HREADY as enable.
 - kind of lane selection - and reverse lane selection.
   
 
