@@ -37,7 +37,7 @@
 36. SEQ:WRAP: 
     WB=TD =(1<<(HSIZE+HBURST [2:1]+1)) - DEFINITELY some 2's power  so N=LOG2(TD)  . eg 16 byte -> N = 4 (ARM life)
     N-1 = HSIZE+HBURST [2:1] e.g. 3 
-    wrap_base = SA - (SA%WB) = FLOOR[SA/WB] = SA &(SA[N-1:0]=0)
+    wrap_base = SA - (SA%WB) = FLOOR[SA/WB] * WB = {SA[M:N] , (SA[N-1:0]=0)} = (SA>>N)<<N
     addr[0]= SA
     inc_address_n = address[n-1] + (1<<HSIZE)    for all n < (1<<(HBURST [2:1]+1))
     addr[n] =  { SA[M:N],  inc_address_n[N-1:0]}  EQUIVALENT TO    addr[n] = wrap_base + (inc_address_n- wrap_base) % WB  
@@ -55,8 +55,8 @@
 47. HRESP:HREADY :: 00 REGULAR PENDING 01 TRANSFER SUCCESSFUL DATA PHASE 10 ERROR RESPONSE CYCLE 1 11 ERROR RESPONSE CYCLE 2. REMEMBER HAPPENS IN DATA STAGE PIPELINE always maintained.
 48. 1,2,4,8,16,32,64,128 BYTES only so bytes are 2**k - k 0 to 7 .  (1<<HSIZE) : TS <= DW/8 (data_width IN BYTE) ; SA[HSIZE-1:0] == '0
     Q1: SA falls for full bus - by D=DW/8 in bytes - then (SA%D)==0 -> SA[k-1:0] = 0 - thats for start align - we know 
-    Q2: NOW , think they are not -> always condition HSIZE <= k : no_of_narrow transaction or lanegroup: 2^(k - HSIZE)  and lanegroup no = floor((SA % D) / TS) = ADDRESS[k-1:HSIZE] lane
-    Q3. HENCE , starting BYTE LANE segment - m=ADDRESS[k-1:0] determines which no .so WD [(m+(1<<HSIZE))*8-1 :m*8]
+    Q2: NOW , think they are not -> always condition HSIZE <= k : no_of_narrow transaction or lanegroup: 2^(k - HSIZE)  and lanegroup no = floor((SA % D) / TS) = ADDRESS[k-1:HSIZE] laneGROUP integer.
+    Q3. HENCE , starting BYTE LANE segment - m=ADDRESS[k-1:0] determines which no .so WD [(m+(1<<HSIZE))*8-1 :m*8]  = WD[(m+(1<<HSIZE)-1)*8+7 :m*8] 
 
 49. for big endian - g=((1<<k)/(1<<HSIZE)) -1 - ADDRESS [K-1:HSIZE] lanegroup no. m=ADDRESS[k-1:0] 
                      WD [ ((1<<K)-m)*8-1   :((1<<K)-(m+(1<<HSIZE)))*8]
@@ -83,23 +83,41 @@ VERSION A:
 15. wait for valid for reaady but also ready before valid acceptable.
 16. Slave may  ARVALID->ARREADY :: but both must come before corresponding RVALID, RReady may or may not.
 17. BVALID must wait for WVALID WREADY. BREADY may or may not. WVALID or AWVALID wait for AWREADY/Wready absolutely banned.
-18. BURST 4KB Boundary SA[31:12] == End Address[31:12]. AWLEN+1 = No of beat. wrapping burst AWLEN+1 =(1<<(a+1)) a from 0 to 3. a is same as HBURST[2:1] in this case. No termination but disable by strobe or ignoring read data if master plans but not stopping burst sequence. FIFO be aware.
-19. HSIZE[0] 2 value :  INCR WRAP Now it becomes 3 value hence another field Fixed  ARBURST/AWBURST.
-20. Fixed new : 1 address for all.
-21. FOR WRAp ARSIZE same as (1<<HSIZE)-1. (1<<ARSIZE) is the total byte in a beat. same WD restriction. AWLEN FOR INCR type not only 2's power all values before 16.
-22. now SA[ARSIZE-1:0]=='0 like AHB but only for wrap.  AWLEN+1 =(1<<(a+1)) a from 0 to 3
+18. BURST 4KB Boundary SA[31:12] == End Address[31:12]. AxLEN+1 = No of beat. wrapping burst AxLEN+1 =(1<<(a+1)) a from 0 to 3. a is same as HBURST[2:1] in this case. No termination but disable by strobe or ignoring read data if master plans but not stopping burst sequence. FIFO be aware.
+19. HBURST[0] 2 value : INCR WRAP Now it becomes 3 value hence another field for Fixed type :FIFO 
+20. Fixed new : 1 address for all.:FIFO
+21. FOR WRAP AxSIZE same as (1<<HSIZE). (1<<AxSIZE) is the total byte in a beat. same WD restriction for wrap . AxLEN FOR INCR type is not only 2's power all values before 16.
+22. now SA[AxSIZE-1:0]=='0 like AHB but only for wrap.  AxLEN+1 =(1<<(a)) a from 1 to 4
+ for wrap - 
+ a = log2[AxLEN+1]  (1 to 4) (allowed as per doc - integer)
+ TD =   (AxLEN+1) * (1<<AxSIZE) = (1<<(a)) *  (1<<AxSIZE) = 1<<(a+AxSize)
+    = 1<<(log2[AxLEN+1] + AxSize] 
 
+ N= log2[AxLEN+1] + AxSize   
+ WRAP_BOUNDARY = FLOOR[SA/TD] *TD = (SA >>N) <<N
+ ADDRESS_i_temp = i *(1<<AxSIZE) + SA  
+ ADDRES_i = {SA[M:log2[AxLEN+1] + AxSize], ADDRESS_i_temp[log2[AxLEN+1] + AxSize -1:0]}
+ 
+23. NOW lane selection and range - 1,2,4,8,16,32,64,128 BYTES only so bytes are 2**k - k 0 to 7 
+     SA case - INCR/Fixed.
+     So - Lower address boundary for byte lane 0= SA{SA[M:k],{k-1{0}}} 
+     AxSize = P k >= P
+     aligned_address = (SA>>AxSize)<<AxSize
+     
+     for INCR ADDRES_i =aligned_address + i* (1<<AxSize)
+     So starting Address
+     LB integer = SA-{SA[M:k],{(k){0}}} = SA[k-1:0]
+     UB integer = {SA[M:P],{(P){0}}} + (1<<P) - {SA[M:k],{(k){0}}} -1 (1 for inclusiveness correction - wo 1 its next lane LB) = {SA[k-1:P],{(P){1}}} (proof binary arithmatic)
+     for next onwards - also this is true
 
+     next ADDR_i = {SA[M:P],{(P){0}}} +(1<<P)*i
+     LB integer = ADDR-{ADDR[M:k],{(k){0}}} = ADDR[k-1:0]
+     UB integer = ADDR[k-1:0] +(1<<P) -1
 
-
-
-
-
-
-
-
-
-
+          -1 is evident here now -  8*UB+7:8*LB
+24. Exclusive access vs Locked access -
+     
+    
 
 
 
