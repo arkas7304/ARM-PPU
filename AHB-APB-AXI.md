@@ -75,12 +75,11 @@ VERSION A:
 7. same AWVALID going down to wlast going up (wvalid wready tango).
 8. for decoupling ready two way and also for address data separately and source also delay by valid. - pipeline register insertion to fix timing handshake - combi logic path at master from Hready- NO WAIT for READY for valid assertion. - symmetrical flow control.
 9.  B channel solves write data completion status/error - master can proceed with other slaves/out of order write/ intermediatory hand-offs - more control over latency and signaling to first source system wide/ read after write hazards.
-10.  ID,LOCK(2), CACHE(4) separate, PROT same as  APB4. RESP same with two added value EXOKAY,DECERR.
-11. HBURST-split into LEN and BURST.
-12. decoupling of BRESP from Write necessiated . 
-
-
-
+10. HBURST-split into LEN and BURST.
+11. wstrb[k]==1 means WDATA[ 8*K+7 : 8 * K] - 32 bit DATA bus fixed.
+12. LOCK(2), CACHE(4) separate, PROT same as  APB4. RESP (B,R) same with two added value EXOKAY,DECERR.
+13. CSYSREQ,CSYSACK,CACTIVE (Qchannel like but not yet).
+14. 
 
 
 
