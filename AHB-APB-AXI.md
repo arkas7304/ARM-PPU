@@ -79,8 +79,15 @@ VERSION A:
 11. wstrb[k]==1 means WDATA[ 8*K+7 : 8 * K] - 32 bit DATA bus fixed.
 12. LOCK(2), CACHE(4) separate, PROT same as  APB4. RESP (B,R) same with two added value EXOKAY,DECERR.
 13. CSYSREQ,CSYSACK,CACTIVE (Qchannel like but not yet).
-14. 
-
+14. read data after the address corresponding. write response after the last write only - deadlock prevented by valid of one channel never depend on ready of another but ready can wait for valid. exception next.
+15. wait for valid for reaady but also ready before valid acceptable.
+16. Slave may  ARVALID->ARREADY :: but both must come before corresponding RVALID, RReady may or may not.
+17. BVALID must wait for WVALID WREADY. BREADY may or may not. WVALID or AWVALID wait for AWREADY/Wready absolutely banned.
+18. BURST 4KB Boundary SA[31:12] == End Address[31:12]. AWLEN+1 = No of beat. wrapping burst AWLEN+1 =(1<<(a+1)) a from 0 to 3. a is same as HBURST[2:1] in this case. No termination but disable by strobe or ignoring read data if master plans but not stopping burst sequence. FIFO be aware.
+19. HSIZE[0] 2 value :  INCR WRAP Now it becomes 3 value hence another field Fixed  ARBURST/AWBURST.
+20. Fixed new : 1 address for all.
+21. FOR WRAp ARSIZE same as (1<<HSIZE)-1. (1<<ARSIZE) is the total byte in a beat. same WD restriction. AWLEN FOR INCR type not only 2's power all values before 16.
+22. now SA[ARSIZE-1:0]=='0 like AHB but only for wrap.  AWLEN+1 =(1<<(a+1)) a from 0 to 3
 
 
 
