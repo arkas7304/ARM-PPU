@@ -63,23 +63,21 @@
     
 HADDR[K] -> SELECTOR 0 -> K-1 : 2**K differrent address means 2 **K bytes -> more widers K..N address works as selector. narrow slave on wide bus. - latch selector address with HREADY as enable.
 - kind of lane selection - and reverse lane selection.
-  
 
-    
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
+AXI- 
+VERSION A: 
+1. decoupling of pipeline of address phase and data phase. KEEP on dumping Starting address and size (equivalent of HBURST) data will keep on coming out. So for each data individual address need not toggle. less switching of address bus.
+2. out of order support- Slaves can return out of order data (e.g. by availability)
+3. out of order support. ID Tag- same ID tag must follow the order - interconnect buffering fast slaves to allow priority transaction. - (INTERCONNECT ALSO must ensure same ID same order ?).
+4. Master overrides outof order by same ID - simple slave can ignore outoforder anyway.
+5. out of order - every channel own separate ready,valid,id.
+6. ARValid sampled high to RLAST going high - a SLAVE's limit assuming RREADY always. say that L no clock cycle.  it takes L*T sec time for 1 address - so in 1 hour there would be 3600/(L * T) no of address dump. LAST is for smart routing less thread tracker per ID. Interconnect can operate out of ordering independently of master so without last it would balloon up.
+7. same AWVALID going down to wlast going up (wvalid wready tango).
+8. for decoupling ready two way and also for address data separately and source also delay by valid. - pipeline register insertion to fix timing handshake - combi logic path at master from Hready- NO WAIT for READY for valid assertion. - symmetrical flow control.
+9.  B channel solves write data completion status/error - master can proceed with other slaves/out of order write/ intermediatory hand-offs - more control over latency and signaling to first source system wide/ read after write hazards.
+10.  ID,LOCK(2), CACHE(4) separate, PROT same as  APB4. RESP same with two added value EXOKAY,DECERR.
+11. HBURST-split into LEN and BURST.
+12. decoupling of BRESP from Write necessiated . 
 
 
 
@@ -98,77 +96,85 @@ HADDR[K] -> SELECTOR 0 -> K-1 : 2**K differrent address means 2 **K bytes -> mor
 
 
 
-2.  for beat_length 1 and INCR beath length shall be ignored
 
-3. Burst total :  no of beat + starting address phase.
 
-4. data/beat = (2** HSIZE) = (1<<HSIZE) //  2**HSIZE <= DATA_width must for data
 
-5. 
-6. total length/no of cycle = 1 start + wait_states/idle/busy_states+no of beats (N)
 
-7. Addr incr total 1KB address boundary - no cross - 1024 bytes max. can be smaller based on starting. 
 
-8. 
-10. 
-11. AHB2 - ERROR : 2 BIT : OKAY, ERROR, RETRY SPLIT.
 
-12. preemption when extreme latency - re arbitration for pending.
 
-13. wait state - extends the same-time address phase of next transfer.
 
-14. HBURST - Burst type.( 0, 1: undef). Any incr - seq location. address is incr of prev.
+13.  for beat_length 1 and INCR beath length shall be ignored
+
+14. Burst total :  no of beat + starting address phase.
+
+15. data/beat = (2** HSIZE) = (1<<HSIZE) //  2**HSIZE <= DATA_width must for data
+
+16. 
+17. total length/no of cycle = 1 start + wait_states/idle/busy_states+no of beats (N)
+
+18. Addr incr total 1KB address boundary - no cross - 1024 bytes max. can be smaller based on starting. 
+
+19. 
+20. 
+21. AHB2 - ERROR : 2 BIT : OKAY, ERROR, RETRY SPLIT.
+
+22. preemption when extreme latency - re arbitration for pending.
+
+23. wait state - extends the same-time address phase of next transfer.
+
+24. HBURST - Burst type.( 0, 1: undef). Any incr - seq location. address is incr of prev.
     idle -1 addr phase - data from prev can continue no impact - okay response -0 wait must.
 
-15. busy type - idle may come. busy type address -control of next already. transfer ignored by slave - okay response -0 wait must.
+25. busy type - idle may come. busy type address -control of next already. transfer ignored by slave - okay response -0 wait must.
 
-16. NONSEQ type - first transfer of bus or single transfer unrelated to previous tranfer. - 
+26. NONSEQ type - first transfer of bus or single transfer unrelated to previous tranfer. - 
 
-17. SEQ: Addr determined by prev. eq.8 is valid from 2nd beat's address. control remains same throughout. 
+27. SEQ: Addr determined by prev. eq.8 is valid from 2nd beat's address. control remains same throughout. 
 
-18. 
-19. multi master case: if burst termination forced - rebuild of burst at next point onward after reacquire - this requirement not there in ahb-lite AMBA 3 but there in AHB2.
+28. 
+29. multi master case: if burst termination forced - rebuild of burst at next point onward after reacquire - this requirement not there in ahb-lite AMBA 3 but there in AHB2.
 
-20. HPROT : 3-cacheable 2- bufferable 1-priviledged 0: data/op.
+30. HPROT : 3-cacheable 2- bufferable 1-priviledged 0: data/op.
 
-21. HTRANS impact: non existant address = default slave :idle/busy type -OKAY response. rest ERROR response. 
+31. HTRANS impact: non existant address = default slave :idle/busy type -OKAY response. rest ERROR response. 
 
-22. Bus master in either AHB-lite or aAMBA2 AHB never cancels a transaction that has started. 
+32. Bus master in either AHB-lite or aAMBA2 AHB never cancels a transaction that has started. 
 
-23. ERROR example : write to read only location; access to secure space in nonsecure mode.
+33. ERROR example : write to read only location; access to secure space in nonsecure mode.
 
-24. SPLIT/RETRY: master retry in next grant-slave requesting grant on behalf of master(?)/ master keeps on retrying.
+34. SPLIT/RETRY: master retry in next grant-slave requesting grant on behalf of master(?)/ master keeps on retrying.
 
-25. two cycle response.: 1st ERROR cycle: HRESP = ERROR, HREADY = 0
+35. two cycle response.: 1st ERROR cycle: HRESP = ERROR, HREADY = 0
 2nd ERROR cycle: HRESP = ERROR, HREADY = 1 
 
-26. meaning clear if you think response is a state for the data line. and two times to prepare the master to cancel 1 stage pipeline.
+36. meaning clear if you think response is a state for the data line. and two times to prepare the master to cancel 1 stage pipeline.
 
-27. Hready first sampled by master at cycle 2 end.
+37. Hready first sampled by master at cycle 2 end.
 
-28. retry - arbiter continues normal priority scheme - split frees for all - but slave must tell back when data is available. master both same.
+38. retry - arbiter continues normal priority scheme - split frees for all - but slave must tell back when data is available. master both same.
 
-29. HMASTKLOCK - breaks pipeline for atomic processing. second phase same address - then idle
+39. HMASTKLOCK - breaks pipeline for atomic processing. second phase same address - then idle
 
-30. busy+nonseq or idle at end of bus.: only for undefined  incr. everything else seq must end.single-busy not allowed. idle or nonseq with non single hburst must before busy.
+40. busy+nonseq or idle at end of bus.: only for undefined  incr. everything else seq must end.single-busy not allowed. idle or nonseq with non single hburst must before busy.
 
-31. start end implicit - so type alone can determine. error response - master termination allowed, no termination also allowed. no rebuild required. slave design should be termination tolerant.
+41. start end implicit - so type alone can determine. error response - master termination allowed, no termination also allowed. no rebuild required. slave design should be termination tolerant.
 
-32. wait -> idle to non seq allowed. wait issued in response to previous nonseq or seq. but onlce nonseq within wait - must hold.
+42. wait -> idle to non seq allowed. wait issued in response to previous nonseq or seq. but onlce nonseq within wait - must hold.
 
-33. wait busy -> seq allowed : busy wait issued in response to previous nonseq or seq. once seq back - must hold. fixed length.
+43. wait busy -> seq allowed : busy wait issued in response to previous nonseq or seq. once seq back - must hold. fixed length.
 
-34. wait busy -> anytype allowed : busy wait issued in response to previous nonseq or seq. once anytime back on nowait - must hold.termination or continuation of burst.
+44. wait busy -> anytype allowed : busy wait issued in response to previous nonseq or seq. once anytime back on nowait - must hold.termination or continuation of burst.
 
-35. idle to nonseq - during wait new addr - addr holds.
+45. idle to nonseq - during wait new addr - addr holds.
 
-36. error - 2 cycle error - 2nd cycle begining new address can be put.
+46. error - 2 cycle error - 2nd cycle begining new address can be put.
 
-37. address deconding - HSEL to each servant based on address space.non existant address- default slave - nonseq/seq error response. idle/busy ok response.
+47. address deconding - HSEL to each servant based on address space.non existant address- default slave - nonseq/seq error response. idle/busy ok response.
 
-38. HRESP 1 - error - must be two type of Hready - wait and then 1.
-39. reccommendation max 16 wait states.  1 error sampling by master is enough to terminate by an idle transaction.
-40. 
+48. HRESP 1 - error - must be two type of Hready - wait and then 1.
+49. reccommendation max 16 wait states.  1 error sampling by master is enough to terminate by an idle transaction.
+50. 
 
   AHB3 lite  -> 2015 version B ->
 
